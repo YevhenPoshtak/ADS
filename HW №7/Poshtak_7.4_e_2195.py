@@ -1,25 +1,40 @@
 import sys
+
 class Counter:
     def __init__(self, iterable: list[str]) -> None:
-        self.table = {}
+        self.capacity = 100003
+        self.table = [[] for _ in range(self.capacity)]
         if iterable:
             for item in iterable:
                 self.add(item)
+
+    def _hash(self, key: str) -> int:
+        h = 0
+        for char in str(key):
+            h = (h * 31 + ord(char)) % self.capacity
+        return h
     
     def add(self, item: str) -> None:
-        if item in self.table:
-            self.table[item] += 1
-        else:
-            self.table[item] = 1
-
-    def get(self, key: str) -> int:
-        return self.table[key] if key in self.table else 0
+        index = self._hash(item)
+        for i, pair in enumerate(self.table[index]):
+            if pair[0] == item:
+                self.table[index][i] = (item, pair[1] + 1)
+                return
+        self.table[index].append((item, 1))
 
     def keys(self) -> list:
         result = []
-        for key in self.table:  
-            result.append(key)
+        for bucket in self.table:
+            for k, v in bucket:
+                result.append(k)
         return result
+
+    def get(self, key: str) -> int:
+        index = self._hash(key)
+        for k, v in self.table[index]:
+            if k == key:
+                return v
+        return 0
 
 class Solution:
     def __init__(self, vocab_list: list[str], text_lines_list: list[str]) -> None:

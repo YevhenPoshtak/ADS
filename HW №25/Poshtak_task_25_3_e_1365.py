@@ -33,8 +33,6 @@ def dijkstra(n: int, start: int, finish: int, matrix: list[list[int]]) -> int:
 
 def main() -> None:
     input_data = sys.stdin.read().split()
-    if not input_data:
-        return
         
     n = int(input_data[0])
     s = int(input_data[1])

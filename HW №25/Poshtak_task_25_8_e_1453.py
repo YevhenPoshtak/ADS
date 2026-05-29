@@ -17,6 +17,7 @@ def bellman_ford(num_vertices: int, edges: list[tuple[int, int, int]], start_ver
 
 def main() -> None:
     input_data = sys.stdin.read().split()
+    
     num_vertices = int(input_data[0])
     num_edges = int(input_data[1])
     
